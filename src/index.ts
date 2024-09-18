@@ -1,20 +1,8 @@
 import { MatchReader } from "./MatchReader";
-import { MatchResultEnum } from "./MatchResult.enum";
+import { Summary } from "./Summary";
 
-const reader = new MatchReader("football.csv");
-reader.read();
-const matches = reader.data;
+const matchReader = MatchReader.fromCsv("football.csv");
+matchReader.load();
 
-let manUnitedWins = 0;
-
-for (let match of matches) {
-  if (
-    (match[1] === "Man United" && match[5] === MatchResultEnum.HomeWins) ||
-    (match[2] === "Man United" && match[5] === MatchResultEnum.AwayWins)
-  ) {
-    manUnitedWins++;
-  }
-}
-
-// console.log(matches);
-console.log(`Man united won ${manUnitedWins} games`);
+const summary = Summary.winsAnalysisWithHtmlReport("Man United");
+summary.buildAndPrintReport(matchReader.matches);
